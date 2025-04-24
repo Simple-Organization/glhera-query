@@ -4,13 +4,12 @@ import type {
   StoreRequestOptions,
   StoreRequestState,
 } from './StoreRequestTypes';
-import type { GLHeraClient } from './glheraClient';
+import { isOnline } from './managers';
 
 //
 //
 
 export function storeRequest<T, U>(
-  client: GLHeraClient,
   opts: StoreRequestOptions<T, U>,
 ): StoreRequest<T, U> {
   //
@@ -26,11 +25,6 @@ export function storeRequest<T, U>(
 
   let unsubSource: (() => void) | null = null;
   let unsubOnline: (() => void) | null = null;
-
-  //
-  //
-
-  const { focusManager, onlineManager } = client;
 
   //
   //
@@ -98,14 +92,14 @@ export function storeRequest<T, U>(
 
   /** Does the fatch, but will not compare or check if is enabled */
   async function internalFetch() {
-    if (onlineManager.get() === false) {
+    if (isOnline.get() === false) {
       updateState({
         fetchStatus: 'paused',
         pending: true,
         status: 'pending',
       });
 
-      unsubOnline = onlineManager.subscribe((online) => {
+      unsubOnline = isOnline.subscribe((online) => {
         if (online) {
           unsubOnline!();
           internalFetch();

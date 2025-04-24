@@ -15,13 +15,8 @@ export { storeRequest } from './StoreRequest';
 //
 //
 
-export { type GLHeraManager, onlineManager, focusManager } from './managers';
-
-//
-//
-
 export {
-  type GLHeraClient,
-  type GLHeraClientOptions,
-  glheraClient,
-} from './glheraClient';
+  glheraQueryListenWindowEvents,
+  isOnline,
+  isWindowFocused,
+} from './managers';
