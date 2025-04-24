@@ -1,4 +1,4 @@
-import { type ReadableSignal, Store } from 'simorg-store';
+import { type ReadableSignal, store } from 'simorg-store';
 
 /**
  * A manager that handles the focus and online state of the browser.
@@ -21,15 +21,13 @@ export function focusManager(): GLHeraManager {
   //
   //
 
-  const isFocused = new Store(getVisibilityState());
+  const isFocused = store(getVisibilityState());
 
   //
   //
 
   return {
-    get() {
-      return isFocused.get();
-    },
+    get: isFocused.get,
     subscribe: isFocused.subscribe,
     listen() {
       const listener = () => isFocused.set(getVisibilityState());
@@ -44,15 +42,13 @@ export function focusManager(): GLHeraManager {
  * Manages the online/offline state of the browser.
  */
 export function onlineManager(): GLHeraManager {
-  const isOnline = new Store(navigator.onLine);
+  const isOnline = store(navigator.onLine);
 
   //
   //
 
   return {
-    get() {
-      return isOnline.get();
-    },
+    get: isOnline.get,
     subscribe: isOnline.subscribe,
     listen() {
       const listenerOn = () => isOnline.set(true);
@@ -65,22 +61,4 @@ export function onlineManager(): GLHeraManager {
       };
     },
   };
-}
-
-/**
- * Creates a manager to replace `focusManager` and `onlineManager` in tests or when the browser does not support them.
- * @param initial - The initial value of the signal.
- * @returns A manager that always returns the initial value.
- */
-export function testingManager(initial: boolean): GLHeraManager {
-  const signal = new Store(initial);
-
-  //
-  // @ts-ignore
-  signal.listen = () => () => {};
-
-  //
-  //
-
-  return signal as any;
 }

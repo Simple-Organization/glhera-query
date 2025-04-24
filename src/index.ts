@@ -15,12 +15,7 @@ export { storeRequest } from './StoreRequest';
 //
 //
 
-export {
-  type GLHeraManager,
-  onlineManager,
-  focusManager,
-  testingManager,
-} from './managers';
+export { type GLHeraManager, onlineManager, focusManager } from './managers';
 
 //
 //

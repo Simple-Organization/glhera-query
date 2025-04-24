@@ -1,4 +1,4 @@
-import { Store } from 'simorg-store';
+import { store } from 'simorg-store';
 import type {
   StoreRequest,
   StoreRequestOptions,
@@ -46,7 +46,7 @@ export function storeRequest<T, U>(
   //
   //
 
-  const state = new Store(_internalState);
+  const state = store(_internalState);
 
   //
   //
